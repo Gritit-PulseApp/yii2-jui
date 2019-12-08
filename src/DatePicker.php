@@ -175,8 +175,14 @@ class DatePicker extends InputWidget
         }
         if ($value !== null && $value !== '') {
             // format value according to dateFormat
+            $format = $this->dateFormat;
+            if (strncmp($format, 'php:', 4) === 0) {
+                $format = substr($format, 4);
+            }
+
             try {
-                $value = Yii::$app->formatter->asDate($value, $this->dateFormat);
+                $date = date_create_from_format($format, $value);
+                $value = $date->format($format);
             } catch(InvalidParamException $e) {
                 // ignore exception and keep original value if it is not a valid date
             }
