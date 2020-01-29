@@ -182,7 +182,9 @@ class DatePicker extends InputWidget
 
             try {
                 $date = date_create_from_format($format, $value);
-                $value = $date->format($format);
+                if (false !== $date) {
+                    $value = $date->format($format);
+                }
             } catch(InvalidParamException $e) {
                 // ignore exception and keep original value if it is not a valid date
             }
